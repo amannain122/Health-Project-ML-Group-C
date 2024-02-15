@@ -14,7 +14,7 @@ import seaborn as sns
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import train_test_split
 
-rawHealthCareDF = pd.read_csv('/content/HealthCareDataSet - Sheet1.csv',index_col=0)
+rawHealthCareDF = pd.read_csv('/content/HealthCareDataSet-Sheet1.csv',index_col=0)
 X_train, X_test=train_test_split(rawHealthCareDF,test_size=0.2,random_state=24)
 X_train.to_csv("healthCare_train_dataset")
 X_test.to_csv("healthCare_test_dataset")
@@ -94,6 +94,7 @@ def show_scatterplot(data_frame_cols):
 
 #features
 features = ['ReadmissionCount', 'Gender', 'ABG' ,'SecondaryDiagnosis', 'Pulse','BMI']
+target_value = 'LengthOfStay'
 for column in features:
   show_scatterplot(healthCareDF[column])
 
@@ -101,4 +102,8 @@ def show_scatterplot(data_frame_cols):
   plt.figure(figsize = (6,6))
   sns.scatterplot(data= healthCareDF, x= data_frame_cols, y = healthCareDF.LengthOfStay)
   plt.show()
+
+features_data_frame = healthCareDF[features]
+features_data_frame = features_data_frame.join(healthCareDF.LengthOfStay)
+features_data_frame.to_csv('features_extracted.csv', index=False)
 
